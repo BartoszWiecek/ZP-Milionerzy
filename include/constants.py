@@ -58,4 +58,4 @@ INFO = Info(
     }
 )
 
-database_path = 'postgresql://postgres@localhost/millionaires'
+database_path = 'postgresql://postgres@localhost/millionaires_v2'

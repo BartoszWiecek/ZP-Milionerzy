@@ -6,7 +6,6 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, CheckConstraint, UniqueConstraint
 import pandas as pd
 import os
-import csv
 from include.constants import database_path
 # from include.db_init import Languages, Questions
 Base = declarative_base()
@@ -52,7 +51,7 @@ def bahadiri_import():
         db.execute(lang_query)
     language_id = db.execute(select(Languages.id).where(Languages.name == 'tr')).fetchall()[0][0]
 
-    file = pd.read_csv("bahidiri_turkish.csv", names=["id", "category_id", "question", "date", "A", "B", "C", "D", "answer", "subcategory_id"])
+    file = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bahidiri_turkish.csv'), names=["id", "category_id", "question", "date", "A", "B", "C", "D", "answer", "subcategory_id"])
     quests = []
 
     for _, question in file.iterrows():
@@ -73,4 +72,4 @@ def bahadiri_import():
 
     quest_query = insert(Questions).values(quests)
     db.execute(quest_query)
-    # db.commit()
+    db.commit()
